@@ -2,7 +2,7 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include "DSU.h"
+
 
 using namespace std;
 
@@ -10,6 +10,6 @@ using namespace std;
 
 int main()
 {
-    
+    cout << "Hello world\n";
     return 0;
 }
