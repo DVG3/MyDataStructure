@@ -29,5 +29,8 @@
     <ClInclude Include="LIWDO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DSU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

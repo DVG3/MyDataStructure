@@ -131,6 +131,7 @@
     <ClCompile Include="DataStructure.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DSU.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LIWDO.h" />
     <ClInclude Include="SparseTable.h" />
