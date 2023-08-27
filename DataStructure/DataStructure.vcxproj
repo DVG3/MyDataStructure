@@ -131,9 +131,11 @@
     <ClCompile Include="DataStructure.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CHT.h" />
     <ClInclude Include="DSU.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LIWDO.h" />
+    <ClInclude Include="SkipList.h" />
     <ClInclude Include="SparseTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
