@@ -1,7 +1,7 @@
 #pragma once
 
-using namespace std;
-#define _MAX_NODE_LEVEL 24
+
+#define _MAX_NODE_LEVEL 25
 template <class T>
 struct SkipListNode
 {
@@ -37,7 +37,7 @@ public:
         return _sz;
     }
 
-    SkipListNode<T>* lower_bound(int x)
+    SkipListNode<T>* lower_bound(const T& x)
     {
         SkipListNode<T>* cur = head;
         for (int i = _MAX_NODE_LEVEL - 1; i >= 0; i--)
@@ -49,7 +49,20 @@ public:
         }
         return cur->nxt[0];
     }
-
+    int key_of(const T& x)
+    {
+        int idx = 0;
+        SkipListNode<T>* cur = head;
+        for (int i = _MAX_NODE_LEVEL - 1; i >= 0; i--)
+        {
+            while (cur->nxt[i] != 0 && cur->nxt[i]->value < x)
+            {
+                idx += cur->width[i];
+                cur = cur->nxt[i];
+            }
+        }
+        return idx + 1;
+    }
     T& operator[](int index)
     {
         SkipListNode<T>* cur = head;
@@ -83,12 +96,12 @@ public:
             tmp[i] = cur;
         }
 
-        int levelAdd = max(min(_MAX_NODE_LEVEL, 1 - int(log2((double)rand() / (double)(RAND_MAX)))), 1);
+        int levelAdd = std::max(std::min(_MAX_NODE_LEVEL, 1 - int(log2((double)rand() / (double)(RAND_MAX)))), 1);
         int steps = 0;
         SkipListNode<T>* newNode = new SkipListNode<T>();
         for (int i = 0; i < levelAdd; i++)
         {
-            
+
             SkipListNode<T>* pre = tmp[i];
             newNode->width[i] = pre->width[i] - steps;
             pre->width[i] = steps + 1;
@@ -96,7 +109,7 @@ public:
             newNode->nxt[i] = pre->nxt[i];
             pre->nxt[i] = newNode;
             steps += stepAtLevel[i];
-           
+
         }
         for (int i = levelAdd; i < _MAX_NODE_LEVEL; i++)
         {
@@ -106,13 +119,13 @@ public:
     }
 
 
-    void remove(int x)
+    void remove(const T& x)
     {
         SkipListNode<T>* cur = head;
         for (int i = _MAX_NODE_LEVEL - 1; i >= 0; i--)
         {
             tmp[i] = 0;
-            while (cur->nxt[i] != 0 && cur->nxt[i]->value < x)
+            while (cur->nxt[i] != nullptr && cur->nxt[i]->value < x)
             {
                 cur = cur->nxt[i];
             }
@@ -120,22 +133,22 @@ public:
         }
         int cnt = 0;
         if (tmp[0]->nxt[0] == 0 || tmp[0]->nxt[0]->value > x) return;
-        SkipListNode<T>* remain = tmp[0]->nxt[0];
+        //SkipListNode<T>* remain = tmp[0]->nxt[0];
+        SkipListNode<T>* tmp2 = tmp[0]->nxt[0];
         for (int i = 0; i < _MAX_NODE_LEVEL; i++)
         {
             cnt++;
             if (tmp[i]->nxt[i] == 0 || tmp[i]->nxt[i]->value > x) break;
-            SkipListNode<T>* tmp2 = tmp[i]->nxt[i];
-            remain = tmp2;
+            //remain = tmp2;
             tmp[i]->width[i] += tmp2->width[i] - 1;
             tmp[i]->nxt[i] = tmp2->nxt[i];
         }
-        for (int i = cnt; i < _MAX_NODE_LEVEL; i++)
+        for (int i = cnt - 1; i < _MAX_NODE_LEVEL; i++)
         {
             tmp[i]->width[i]--;
         }
         //delete[](*remain).nxt;
-        delete remain;
+        delete tmp2;
         _sz--;
     }
 
